@@ -1,0 +1,73 @@
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# =========================
+# Eclipse / STS
+# =========================
+.classpath
+.project
+.settings/
+.factorypath
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# Build results
+# =========================
+/target/
+build/
+
+# =========================
+# Gradle
+# =========================
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# Spring Boot
+# =========================
+*.pid
+*.pid.lock
+
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+application-local.yml
+application-local.properties
+application-dev.yml
+application-dev.properties
+
+# =========================
+# Test / Temp
+# =========================
+tmp/
+temp/
+
+# =========================
+# Node (프론트 같이 쓸 때)
+# =========================
+node_modules/
+dist/
