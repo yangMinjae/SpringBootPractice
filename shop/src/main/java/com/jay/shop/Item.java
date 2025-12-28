@@ -1,19 +1,23 @@
 package com.jay.shop;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Entity
 @ToString
+@Getter
+@Setter
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     //@Column(length = 1000)
-    public String title;
-    public Integer price;
-    public LocalDateTime date;
+    private String title;
+    private Integer price;
+    //public LocalDateTime date;
 }
 

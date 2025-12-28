@@ -10,6 +10,9 @@
 
 </head>
 <body>
+
+  <div th:replace="~{ nav.html::navbar }"></div>
+
   <form action="/add" method="post">
     <input name="title">
     <input name="price">
