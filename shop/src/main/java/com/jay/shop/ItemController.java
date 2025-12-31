@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
 //    @Autowired
 //    public ItemController(ItemRepository itemRepository) {
 //        this.itemRepository = itemRepository;
@@ -35,21 +36,8 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String addPost(@ModelAttribute Item item){
-        String name = item.getTitle();
-        Integer price = item.getPrice();
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("상품명은 필수입니다.");
-        }
-
-        if (name.length() < 2 || name.length() > 50) {
-            throw new IllegalArgumentException("상품명 길이 오류");
-        }
-
-        if (price == null || price <= 0) {
-            throw new IllegalArgumentException("가격은 0보다 커야 합니다.");
-        }
-        itemRepository.save(item);
+    String addPost(String title, Integer price){
+        itemService.saveItem(title, price);
         return "redirect:/list";
     }
 
@@ -58,9 +46,28 @@ public class ItemController {
         Optional<Item> result = itemRepository.findById(id);
         if(result.isPresent()){
             model.addAttribute("data", result.get());
+            return "detail.html";
+        }else{
+            return "redirect:/list";
         }
-        //itemRepository.findById(id).ifPresent(item -> model.addAttribute("data", item));
-        return "detail.html";
     }
+
+    @GetMapping("/edit/{id}")
+    String edit(@PathVariable Long id, Model model){
+        return itemRepository
+                .findById(id)
+                .map(item -> {
+                    model.addAttribute("data",item);
+                    return "edit.html";
+                })
+                .orElse("redirect:/list");
+    }
+
+    @PostMapping("/update")
+    String update(Long id, String title, Integer price){
+        itemService.updateItem(id, title, price);
+        return "redirect:/list";
+    }
+
 
 }

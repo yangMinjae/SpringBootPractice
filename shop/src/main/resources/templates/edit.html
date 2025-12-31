@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css">    <!-- static에서 주소 시작 -->
+
+</head>
+<body>
+    <div th:replace="~{ nav.html::navbar }"></div>
+
+    <form action="/update" th:object="${data}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <input type="text" th:field="*{title}">
+        <input type="text" th:field="*{price}">
+        <button type="submit">전송</button>
+    </form>
+</body>
+</html>
