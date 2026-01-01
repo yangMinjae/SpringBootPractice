@@ -32,7 +32,24 @@
             <a th:href="@{'/detail/'+${i.id}}">링크</a>
             <p th:text="${i.price}">7억</p>
             <a th:href="@{'/edit/'+${i.id}}">✏️</a>
+            <span th:data-id="${i.id}" onclick="deleteItem(this)">🗑️</span>
         </div>
     </div>
+<script type="text/javascript">
+    function deleteItem(element){
+        const id = element.getAttribute('data-id');
+        if(confirm("정말 삭제하시겠습니까?")){
+            fetch(`/item/${id}`,{method:'DELETE'})
+                .then(res=>{
+                    if(res.ok){
+                        location.reload();
+                    } else{
+                        alert("삭제에 실패했습니다.");
+                    }
+                })
+                .catch(err => console.error("네트워크 에러:", err));
+        }
+    }
+</script>
 </body>
 </html>

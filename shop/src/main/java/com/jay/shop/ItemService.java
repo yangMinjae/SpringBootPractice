@@ -1,6 +1,8 @@
 package com.jay.shop;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +29,16 @@ public class ItemService {
                     item.setPrice(price);
                     return item;})
                 .orElseThrow(() -> new IllegalArgumentException("수정 실패 : ID"+id+"번 아이템이 존재하지 않습니다."));
+    }
+
+    @Transactional
+    public ResponseEntity<Void> deleteById(Long id){
+        if(!itemRepository.existsById(id)){
+            System.out.println("에러 발생!! ID "+id+"번 데이터가 없습니다.");
+            return ResponseEntity.notFound().build();
+        }
+
+        itemRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
