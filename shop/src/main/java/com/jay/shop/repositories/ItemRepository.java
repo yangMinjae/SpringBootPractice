@@ -1,4 +1,4 @@
-package com.jay.shop;
+package com.jay.shop.repositories;
 
 import com.jay.shop.entities.Item;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,9 @@
-package com.jay.shop;
+package com.jay.shop.controllers;
 
+import com.jay.shop.repositories.ItemRepository;
+import com.jay.shop.services.ItemService;
 import com.jay.shop.entities.Item;
+import com.jay.shop.services.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -74,14 +77,4 @@ public class ItemController {
         return itemService.deleteById(id);
     }
 
-    @GetMapping("/test2")
-    String deleteItem(){
-        String result = new BCryptPasswordEncoder().encode("문자!!!");
-        return result;
-    }
-
-    @PostMapping("/member")
-    void register(String displayName, String username, String password){
-
-    }
 }

@@ -1,6 +1,7 @@
-package com.jay.shop;
+package com.jay.shop.services;
 
 import com.jay.shop.entities.Item;
+import com.jay.shop.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,4 @@ public class ItemService {
         return ResponseEntity.noContent().build();
     }
 
-    @Transactional
-    public saveMember(){
-
-    }
 }
