@@ -1,7 +1,7 @@
 package com.jay.shop;
 
+import com.jay.shop.entities.Item;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +40,10 @@ public class ItemService {
 
         itemRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Transactional
+    public saveMember(){
+
     }
 }

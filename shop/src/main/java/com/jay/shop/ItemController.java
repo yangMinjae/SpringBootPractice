@@ -1,15 +1,14 @@
 package com.jay.shop;
 
+import com.jay.shop.entities.Item;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -75,4 +74,14 @@ public class ItemController {
         return itemService.deleteById(id);
     }
 
+    @GetMapping("/test2")
+    String deleteItem(){
+        String result = new BCryptPasswordEncoder().encode("문자!!!");
+        return result;
+    }
+
+    @PostMapping("/member")
+    void register(String displayName, String username, String password){
+
+    }
 }

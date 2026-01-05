@@ -1,11 +1,9 @@
-package com.jay.shop;
+package com.jay.shop.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 @Entity
 @ToString
