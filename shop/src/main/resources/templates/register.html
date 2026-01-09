@@ -9,11 +9,80 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/member" method="POST">
+    <div>
         <input name="name" placeholder="이름">
         <input name="loginId" placeholder="아이디">
         <input name="password" type="password" placeholder="password">
-        <button type="submit">전송</button>
-    </form>
+        <button type="button" id="btn1">전송</button>
+    </div>
+
+<script type="text/javascript">
+    let btn1 = document.querySelector('#btn1');
+
+    btn1.addEventListener('click',async ()=>{
+        const name = document.querySelector('input[name="name"]').value.trim();
+        const loginId = document.querySelector('input[name="loginId"]').value.trim();
+        const password = document.querySelector('input[name="password"]').value.trim();
+        if (!loginId || loginId.length < 4 || loginId.length > 20) {
+            alert("아이디는 4~20자 사이여야 하며 필수 입력 값입니다.");
+            return; // 전송 중단
+        }
+
+        // 2. 비밀번호 검증 (@Pattern - Java와 동일한 정규식 사용)
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            alert("비밀번호는 8자 이상, 영문, 숫자, 특수문자를 모두 포함해야 합니다.");
+            return;
+        }
+
+        // 3. 이름 검증 (@NotBlank)
+        if (!name) {
+            alert("이름은 필수 입력 값입니다.");
+            return;
+        }
+        const data = {
+            name : name,
+            loginId : loginId,
+            password : password
+        };
+        try {
+            const response = await fetch('/member', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // 성공 시 (200 OK)
+                alert("회원가입 완료");
+                location.href = "/list";
+            } else {
+                // [핵심] 여기서 딱 한 번만 읽습니다. 이제 response는 더 이상 안 써도 됩니다.
+                const rawData = await response.text();
+
+                try {
+                    // 읽어온 문자열이 JSON인지 시도해봅니다.
+                    const errors = JSON.parse(rawData);
+
+                    // JSON 파싱에 성공했다면 (Validation 에러인 경우)
+                    const firstKey = Object.keys(errors)[0];
+                    alert(errors[firstKey]);
+
+                    // 모든 에러 메시지를 합쳐서 보여주는 방식
+                    //const errorMessages = Object.values(errors).join('\n');
+                    //alert("다음 사항을 수정해주세요:\n" + errorMessages);
+                } catch (e) {
+                    // JSON 파싱에 실패했다면 (IllegalStateException 등 일반 문자열인 경우)
+                    alert(rawData);
+                }
+                return;
+            }
+        } catch (error) {
+            // 네트워크 연결 오류 등
+            console.error(error);
+            alert('전송 중 오류가 발생했습니다.');
+        }
+    });
+</script>
 </body>
 </html>
