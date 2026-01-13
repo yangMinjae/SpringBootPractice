@@ -9,4 +9,9 @@ public class BasicController {
     public String registerPage(){
         return "/register.html";
     }
+
+    @GetMapping("/login")
+    public String loginPage(){
+        return "/login.html";
+    }
 }

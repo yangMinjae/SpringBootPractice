@@ -1,4 +1,4 @@
-package com.jay.shop;
+package com.jay.shop.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +22,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll()
         );
+        http.formLogin((formLogin)->
+                formLogin.loginPage("/login")
+                        .defaultSuccessUrl("/"));
         return http.build();
     }
 }

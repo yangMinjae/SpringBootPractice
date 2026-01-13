@@ -11,20 +11,6 @@
 </head>
 <body>
     <div th:replace="~{ nav.html::navbar }"></div>
-<!-- 반복문 사용 x -->
-<!--    <div class="card">-->
-<!--        <img src="https://placehold.co/300">-->
-<!--        <div>-->
-<!--            <h4 th:text="${items.get(0).title}">바지</h4>-->
-<!--            <p th:text="${items.get(0).price}">7억</p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="card">-->
-<!--        <img src="https://placehold.co/300" alt="">-->
-<!--        <h4 th:text="${items.get(1).title}">셔츠</h4>-->
-<!--        <p>8억</p>-->
-<!--    </div>-->
-<!-- 반복문 사용 -->
     <div class="card" th:each="i : ${items}">
         <img src="https://placehold.co/300">
         <div>
