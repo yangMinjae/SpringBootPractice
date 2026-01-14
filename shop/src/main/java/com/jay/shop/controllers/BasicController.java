@@ -1,5 +1,6 @@
 package com.jay.shop.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,4 +15,8 @@ public class BasicController {
     public String loginPage(){
         return "/login.html";
     }
+
+    @GetMapping("/my-page")
+    @PreAuthorize("isAuthenticated()")
+    public String myPage(){return "/mypage.html";}
 }

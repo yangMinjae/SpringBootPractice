@@ -13,15 +13,29 @@
   <div th:replace="~{ nav.html::navbar }"></div>
 
   <h4>로그인하세요</h4>
-
+  <!--
   <div th:if="${param.error}">
     <h4>아이디나 비번 틀림</h4>
   </div>
+  -->
 
   <form action="/login" method="POST">
     <input name="username">
     <input name="password" type="password">
     <button type="submit">전송</button>
   </form>
+<script type="text/javascript">
+  window.onload = function (){
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if(urlParams.has('error') && urlParams.get('error') ===  'true'){
+      const errorMessage = urlParams.get('exception');
+
+      if(errorMessage){
+        alert(decodeURIComponent(errorMessage));
+      }
+    }
+  }
+</script>
 </body>
 </html>
