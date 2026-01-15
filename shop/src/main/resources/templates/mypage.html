@@ -12,5 +12,12 @@
 <body>
     <div th:replace="~{ nav.html::navbar }"></div>
     <h4>마이페이지임</h4>
+
+    <div sec:authentication="principal"></div>
+    <div sec:authentication="principal.username"></div>
+    <div sec:authentication="principal.name"></div>
+    <div>유저 이름 : [[${#authentication.principal.name}]]</div>
+    <div sec:authroize="hasAuthority('ROLE_USER')">ROLE_USER 권한 존재</div>
+    <div sec:authentication="principal"></div>
 </body>
 </html>

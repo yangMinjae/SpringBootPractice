@@ -34,6 +34,14 @@ public class SecurityConfig {
                         .failureHandler(customFailureHandler)
                         .permitAll()                    // 로그인, 로그인 실패 페이지는 모두에게 허용
         );
+        http
+                // ... 다른 설정들
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // 로그아웃 처리 URL (기본값이지만 명시 가능)
+                        .logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 페이지
+                        .invalidateHttpSession(true) // 세션 삭제
+                        .deleteCookies("JSESSIONID") // 쿠키 삭제
+                );
         return http.build();
     }
 }

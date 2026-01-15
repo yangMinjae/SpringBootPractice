@@ -1,5 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <div class="nav" th:fragment="navbar">
-  <a class="logo">SpringMall</a>
-  <a href="/list">List</a>
-  <a href="/write">Write</a>
+
+  <div class="nav-left">
+    <a class="logo" th:href="@{/}">SpringMall</a>
+    <a th:href="@{/list}">List</a>
+    <a th:href="@{/write}">Write</a>
+  </div>
+
+  <div class="nav-right">
+
+    <div sec:authorize="isAnonymous()">
+      <a th:href="@{/login}">Login</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+      <span sec:authentication="principal.name">사용자명</span>님
+      <a th:href="@{/logout}">Logout</a>
+    </div>
+
+  </div>
 </div>
+
+</html>

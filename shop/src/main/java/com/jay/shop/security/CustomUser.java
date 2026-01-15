@@ -15,12 +15,12 @@ import java.util.List;
 public class CustomUser extends User {
     private final String name;
 
-    public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities, String name) {
+    private CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities, String name) {
         super(username, password, authorities);
         this.name = name;
     }
 
-    public  static  CustomUser from(Member member){
+    public static CustomUser from(Member member){
         return new CustomUser(member.getLoginId(),
                 member.getPassword(),
                 List.of(new SimpleGrantedAuthority("ROLE_USER")),
