@@ -5,6 +5,8 @@ import com.jay.shop.services.ItemService;
 import com.jay.shop.entities.Item;
 import com.jay.shop.services.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -77,4 +79,14 @@ public class ItemController {
         return itemService.deleteById(id);
     }
 
+    @GetMapping("/list/page/{i}")
+    String getListPage(Model model, @PathVariable int i){
+        Page<Item> itemPage = itemRepository.findAll(PageRequest.of(i-1,5));
+
+        model.addAttribute("items", itemPage.getContent());
+        model.addAttribute("currentPage", i);
+        model.addAttribute("totalPages", itemPage.getTotalPages());
+
+        return "list.html";
+    }
 }
