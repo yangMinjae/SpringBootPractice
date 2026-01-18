@@ -1,5 +1,6 @@
 package com.jay.shop.controllers;
 
+import com.jay.shop.DTOs.PageDto;
 import com.jay.shop.repositories.ItemRepository;
 import com.jay.shop.services.ItemService;
 import com.jay.shop.entities.Item;
@@ -29,11 +30,7 @@ public class ItemController {
 
     @GetMapping("/list")
     String list(Model model){
-        List<Item> result = itemRepository.findAll();
-        model.addAttribute("items",result);
-        var a = new Item();
-        System.out.println(a);
-        return "list.html";
+        return "redirect:/list/page/1";
     }
     @GetMapping("/write")
     String write(){
@@ -43,6 +40,13 @@ public class ItemController {
     @PostMapping("/add")
     String addPost(String title, Integer price){
         itemService.saveItem(title, price);
+        return "redirect:/list";
+    }
+    @PostMapping("/add/dev")
+    String addPost(){
+        for(int i = 0; i<30; i++){
+            itemService.saveItem(i+"", i*10);
+        }
         return "redirect:/list";
     }
 
@@ -82,10 +86,9 @@ public class ItemController {
     @GetMapping("/list/page/{i}")
     String getListPage(Model model, @PathVariable int i){
         Page<Item> itemPage = itemRepository.findAll(PageRequest.of(i-1,5));
-
+        PageDto pageDto = new PageDto(itemPage, 5);
         model.addAttribute("items", itemPage.getContent());
-        model.addAttribute("currentPage", i);
-        model.addAttribute("totalPages", itemPage.getTotalPages());
+        model.addAttribute("page", pageDto);
 
         return "list.html";
     }

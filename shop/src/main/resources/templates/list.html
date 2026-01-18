@@ -21,6 +21,22 @@
             <span th:data-id="${i.id}" onclick="deleteItem(this)">🗑️</span>
         </div>
     </div>
+    <div class="pagination">
+        <a th:href="@{/list/page/1}">&laquo;&laquo;</a>
+
+        <a th:if="${page.prev}" th:href="@{'/list/page/' + ${page.startPage - 1}}">&laquo;</a>
+
+        <span th:each="p : ${#numbers.sequence(page.startPage, page.endPage)}">
+        <a th:if="${p > 0}"
+           th:href="@{'/list/page/' + ${p}}"
+           th:text="${p}"
+           th:classappend="${p == page.currentPage} ? 'active' : ''"></a>
+    </span>
+
+        <a th:if="${page.next}" th:href="@{'/list/page/' + ${page.endPage + 1}}">&raquo;</a>
+
+        <a th:href="@{'/list/page/' + ${page.totalPages}}">&raquo;&raquo;</a>
+    </div>
 <script type="text/javascript">
     function deleteItem(element){
         const id = element.getAttribute('data-id');
