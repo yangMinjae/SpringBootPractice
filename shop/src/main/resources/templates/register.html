@@ -24,10 +24,16 @@
         // [중요] 동기식 전송(새로고침)을 막습니다.
         e.preventDefault();
 
-        // 이제 아래 로직은 클릭뿐만 아니라 엔터를 쳤을 때도 실행됩니다.
-        const name = document.querySelector('input[name="name"]').value.trim();
-        const loginId = document.querySelector('input[name="loginId"]').value.trim();
-        const password = document.querySelector('input[name="password"]').value.trim();
+        // 1. Form 안의 데이터를 한 번에 수집
+        const formData = new FormData(e.target); // e.target은 signupForm을 가리킵니다.
+
+        // 2. FormData를 순수 자바스크립트 객체(Object)로 변환
+        const dataObj = Object.fromEntries(formData.entries());
+
+        // 3. 값 추출 및 공백 제거(trim) 처리
+        const name = dataObj.name.trim();
+        const loginId = dataObj.loginId.trim();
+        const password = dataObj.password.trim();
 
         // --- 검증 로직 시작 ---
         if (!loginId || loginId.length < 4 || loginId.length > 20) {
