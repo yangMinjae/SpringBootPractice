@@ -1,20 +1,19 @@
 package com.jay.shop.controllers;
 
+import com.jay.shop.DTOs.ItemDto;
 import com.jay.shop.DTOs.PageDto;
 import com.jay.shop.repositories.ItemRepository;
 import com.jay.shop.services.ItemService;
 import com.jay.shop.entities.Item;
-import com.jay.shop.services.MemberService;
+import com.jay.shop.services.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,13 +22,14 @@ public class ItemController {
 
     private final ItemRepository itemRepository;
     private final ItemService itemService;
+    private final S3Service s3Service;
 //    @Autowired
 //    public ItemController(ItemRepository itemRepository) {
 //        this.itemRepository = itemRepository;
 //    }
 
-    @GetMapping("/list")
-    String list(Model model){
+    @GetMapping({"/","/list"})
+    String list(){
         return "redirect:/list/page/1";
     }
     @GetMapping("/write")
@@ -37,10 +37,12 @@ public class ItemController {
         return "write.html";
     }
 
+
     @PostMapping("/add")
-    String addPost(String title, Integer price){
-        itemService.saveItem(title, price);
-        return "redirect:/list";
+    @ResponseBody
+    ResponseEntity<String> addPost(@RequestBody ItemDto.AddRequest dto){
+        itemService.saveItem(dto);
+        return ResponseEntity.ok("성공");
     }
     @PostMapping("/add/dev")
     String addPost(){
@@ -73,8 +75,8 @@ public class ItemController {
     }
 
     @PostMapping("/update")
-    String update(Long id, String title, Integer price){
-        itemService.updateItem(id, title, price);
+    String update(@ModelAttribute ItemDto.UpdateRequest dto){
+        itemService.updateItem(dto);
         return "redirect:/list";
     }
 

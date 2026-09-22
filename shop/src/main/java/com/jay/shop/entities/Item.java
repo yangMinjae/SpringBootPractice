@@ -1,21 +1,25 @@
 package com.jay.shop.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @ToString
 @Getter
-@Setter
-public class Item {
+@Table(name = "tb_item")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+public class Item extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
-    //@Column(length = 1000)
+    private Long id;
+    @Column(nullable = false, length = 255)
     private String title;
     private Integer price;
-    //public LocalDateTime date;
+
+    public void update(String title, Integer price){
+        this.title = title;
+        this.price = price;
+    }
 }
 

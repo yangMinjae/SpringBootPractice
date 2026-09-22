@@ -5,10 +5,11 @@ import lombok.*;
 
 @Entity
 @Getter @ToString
+@Table(name = "tb_member")
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class Member {
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class Member extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

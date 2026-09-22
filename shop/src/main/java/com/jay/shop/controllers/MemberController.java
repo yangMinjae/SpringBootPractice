@@ -1,6 +1,6 @@
 package com.jay.shop.controllers;
 
-import com.jay.shop.DTOs.MemberJoinDTO;
+import com.jay.shop.DTOs.MemberDto;
 import com.jay.shop.services.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/member")
-    public ResponseEntity<String> register(@RequestBody MemberJoinDTO mDTO){
-        System.out.println(mDTO.getName());
-        System.out.println(mDTO.getLoginId());
-        System.out.println(mDTO.getPassword());
-        memberService.saveMember(mDTO);
+    public ResponseEntity<String> register(@RequestBody MemberDto.JoinRequest dto){
+        System.out.println(dto.name());
+        System.out.println(dto.loginId());
+        System.out.println(dto.password());
+        memberService.saveMember(dto);
         return ResponseEntity.ok("회원가입 성공");
     }
 }

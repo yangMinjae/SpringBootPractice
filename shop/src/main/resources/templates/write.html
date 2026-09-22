@@ -7,19 +7,76 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="/main.css">    <!-- static에서 주소 시작 -->
-
 </head>
 <body>
 
   <div th:replace="~{ nav.html::navbar }"></div>
 
-  <form action="/add" method="post">
-    <input name="title">
-    <input name="price">
+  <form id="addForm">
+    <input type="text" name="title" placeholder="제목" required>
+    <input type="text" name="price" placeholder="가격" required>
+    <input type="file" name="imageInput" accept="image/*">
     <button type="submit">전송</button>
   </form>
   <form action="/add/dev" method="post">
     <button type="submit">!!dev!!</button>
   </form>
+
+  <script>
+    document.querySelector('#addForm').addEventListener('submit', async function (e){
+      e.preventDefault();
+
+      const title = this.title.value;
+      const price = this.price.value;
+      const fileInput = this.imageInput;
+      const file = fileInput.files[0];
+
+      let fileKey = null;
+
+      try{
+        if(file){
+          if(!file.type.startsWith('image/')){
+            alert("이미지 파일만 업로드할 수 있습니다.");
+            return;
+          }
+          const urlResponse = await fetch('/presigned-url',{
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+              fileName: file.name,
+              contentType: file.type,
+              fileSize: file.size
+            })
+          })
+          if(!urlResponse.ok) throw new Error("Presigned URL 발급 실패");
+          ({ presignedUrl, fileKey } = await urlResponse.json());
+
+          const uploadResponse = await fetch(presignedUrl, {
+            method: 'PUT',
+            headers: {'Content-Type': file.type},
+            body: file
+          });
+          if(!uploadResponse.ok) throw new Error("S3 파일 업로드 실패");
+        }
+        const addResponse = await fetch('/add', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            title: title,
+            price: price,
+            fileKey: fileKey
+          })
+        });
+
+        if(!addResponse.ok) throw new Error("상품 등록 실패");
+
+        alert("성공적으로 등록되었습니다!");
+        window.location.href = "/list/page/1";
+      }catch (err){
+        console.log("처리중 에러 발생: ",err);
+        alert("등록 중 오류가 발생했습니다: "+err.message);
+      }
+    })
+  </script>
 </body>
 </html>
