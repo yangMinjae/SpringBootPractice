@@ -39,7 +39,7 @@ public class FileService {
     @Transactional
     public void confirmAndConnect(String fileKey, Item item){
         ImageFile imageFile = imageFileRepository.findByFileKey(fileKey)
-                .orElseThrow(() -> new EntityNotFoundException("해당 이미지를 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("filekey에 해당하는 이미지를 찾을 수 없습니다."));
 
         HeadObjectResponse meta = s3Service.getObjectMetadata(fileKey);
         imageFile.confirmUpload(meta.contentLength(), meta.contentType(), item);

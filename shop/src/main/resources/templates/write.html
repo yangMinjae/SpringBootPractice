@@ -49,9 +49,10 @@
             })
           })
           if(!urlResponse.ok) throw new Error("Presigned URL 발급 실패");
-          ({ presignedUrl, fileKey } = await urlResponse.json());
+          const urlData = await urlResponse.json();
+          fileKey = urlData.fileKey;
 
-          const uploadResponse = await fetch(presignedUrl, {
+          const uploadResponse = await fetch(urlData.presignedUrl, {
             method: 'PUT',
             headers: {'Content-Type': file.type},
             body: file
